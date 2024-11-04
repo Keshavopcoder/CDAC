@@ -1,0 +1,59 @@
+// Variables
+let expenseList = []; // List of expenses
+let totalExpense = 0; // Total expense tracker
+
+// Functions
+function addExpense(description, amount, date = new Date().toLocaleDateString()) {
+  const expense = { description, amount, date }; // Expense object
+  expenseList.push(expense); // Add to list
+  totalExpense += amount; // Update total
+  displaySuccessMessage(() => console.log("Expense added successfully!"));
+}
+
+function displayExpenses() {
+  console.log("All Expenses:");
+  expenseList.forEach(({ description, amount, date }) =>
+    console.log(`Description: ${description}, Amount: $${amount}, Date: ${date}`)
+  );
+
+  console.log("\nExpenses over $20:");
+  expenseList.filter(exp => exp.amount > 20).forEach(exp =>
+    console.log(`Description: ${exp.description}, Amount: $${exp.amount}`)
+  );
+
+  console.log(`Total Expenses: $${expenseList.reduce((total, exp) => total + exp.amount, 0)}`);
+}
+
+const addMultipleExpenses = (...expenses) => expenses.forEach(exp => addExpense(exp.description, exp.amount, exp.date));
+
+// Callback function for success message
+function displaySuccessMessage(callback) {
+  callback();
+}
+
+// Simulated API fetch with promise
+function fetchInitialExpenses() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve([
+        { description: "Groceries", amount: 50, date: "2024-11-01" },
+        { description: "Electricity Bill", amount: 30, date: "2024-11-02" }
+      ]);
+    }, 1000);
+  });
+}
+
+// Async function to load initial expenses
+async function loadInitialExpenses() {
+  const initialExpenses = await fetchInitialExpenses();
+  addMultipleExpenses(...initialExpenses);
+  displayExpenses();
+}
+
+// Initialize with async data
+loadInitialExpenses();
+addExpense("Lunch", 15); // Adding a single expense
+addMultipleExpenses(
+  { description: "Coffee", amount: 5 },
+  { description: "Movie", amount: 25 }
+);
