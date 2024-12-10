@@ -1,0 +1,28 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.table {
+    background-color: white;
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-warning {
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}

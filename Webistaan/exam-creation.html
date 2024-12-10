@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Exam</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2>Create Exam</h2>
+    <form id="examCreationForm">
+        <div class="form-group">
+            <label for="examTitle">Exam Title:</label>
+            <input type="text" id="examTitle" class="form-control" required>
+        </div>
+        <div id="questionsContainer"></div>
+        <button type="button" id="addQuestionBtn" class="btn btn-primary">Add Question</button>
+        <button type="submit" class="btn btn-success">Save Exam</button>
+    </form>
+</div>
+
+<script>
+$(document).ready(function () {
+    // Add question dynamically
+    $("#addQuestionBtn").click(function () {
+        addQuestion();
+    });
+
+    function addQuestion(question = {}, index = null) {
+        const questionsContainer = $("#questionsContainer");
+        const questionIndex = index !== null ? index : $(".question").length + 1;
+
+        const questionDiv = $('<div class="form-group question" data-index="' + questionIndex + '"></div>');
+        
+        questionDiv.append(`
+            <label for="question${questionIndex}">Question ${questionIndex}:</label>
+            <input type="text" id="question${questionIndex}" class="form-control" value="${question.question || ''}" required>
+            <label>Options:</label>
+            <input type="text" class="form-control option" placeholder="Option 1" value="${question.options ? question.options[0] : ''}" required>
+            <input type="text" class="form-control option" placeholder="Option 2" value="${question.options ? question.options[1] : ''}" required>
+            <input type="text" class="form-control option" placeholder="Option 3" value="${question.options ? question.options[2] : ''}" required>
+            <input type="text" class="form-control option" placeholder="Option 4" value="${question.options ? question.options[3] : ''}" required>
+            
+            <label for="correctAnswer${questionIndex}">Correct Answer (Option Number):</label>
+            <input type="number" id="correctAnswer${questionIndex}" class="form-control" required min="1" max="4" value="${question.correctAnswer || ''}">
+            
+            <button type="button" class="btn btn-danger deleteQuestionBtn">Delete Question</button>
+            <button type="button" class="btn btn-warning updateQuestionBtn">Edit Question</button>
+        `);
+
+        questionsContainer.append(questionDiv);
+
+        questionDiv.find(".deleteQuestionBtn").click(function () {
+            if (confirm("Are you sure you want to delete this question?")) {
+                questionDiv.remove();
+            }
+        });
+
+        questionDiv.find(".updateQuestionBtn").click(function () {
+            const questionTextInput = questionDiv.find("input[type='text']");
+            const optionsInputs = questionDiv.find(".option");
+            const correctAnswerInput = questionDiv.find(`input[id^='correctAnswer']`);
+
+            if (questionDiv.hasClass('editing')) {
+                const newQuestionText = questionTextInput.val();
+                const newOptions = optionsInputs.map(function () { return $(this).val(); }).get();
+                const newCorrectAnswer = correctAnswerInput.val();
+
+                questionTextInput.attr('readonly', 'readonly');
+                optionsInputs.attr('readonly', 'readonly');
+                correctAnswerInput.attr('readonly', 'readonly');
+
+                questionDiv.removeClass('editing');
+                $(this).text('Edit Question');
+            } else {
+                const confirmation = confirm("Do you want to edit this question?");
+                if (confirmation) {
+                    questionTextInput.removeAttr('readonly');
+                    optionsInputs.removeAttr('readonly');
+                    correctAnswerInput.removeAttr('readonly');
+
+                    questionDiv.addClass('editing');
+                    $(this).text('Save Changes');
+                }
+            }
+        });
+    }
+
+    // Submit the form to save exam data
+    $("#examCreationForm").submit(function (event) {
+        event.preventDefault();
+
+        const examData = {
+            title: $("#examTitle").val(),
+            questions: []
+        };
+
+        $(".question").each(function () {
+            const questionText = $(this).find("input[type='text']").val();
+            const options = $(this).find(".option").map(function () { return $(this).val(); }).get();
+            const correctAnswer = $(this).find("input[id^='correctAnswer']").val();
+            examData.questions.push({ questionText, options, correctAnswer });
+        });
+
+        // Send exam data to the Express server using jQuery AJAX
+        console.log(examData);
+        $.ajax({
+            url: 'http://127.0.0.1:3000/api/exams',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(examData),
+            success: function (response) {
+                alert(response.message);
+            },
+            error: function (error) {
+                alert('Error creating exam');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>

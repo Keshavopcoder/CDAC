@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Online Exam System</title>
+    <style>
+        .jumbotron {
+            background: rgba(0, 123, 255, 0.8); /* Slight transparency */
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+            color: white;
+        }
+        .active-link {
+            font-weight: bold;
+            color: #ffc107 !important; /* Highlight color for active link */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Exam System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link active-link" href="sign-in.html">Sign In</a></li>
+                <li class="nav-item"><a class="nav-link" href="sign-up.html">Sign Up</a></li>
+                <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
+                <li class="nav-item"><a class="nav-link" href="exam-creation.html">Create Exam</a></li>
+                <li class="nav-item"><a class="nav-link" href="exam-interface.html">Take Exam</a></li>
+                <li class="nav-item"><a class="nav-link" href="score-tracking.html">View Scores</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="jumbotron jumbotron-fluid text-center mb-5">
+        <div class="container">
+            <h1>Welcome to the Online Exam and Quiz System</h1>
+            <p>Your reliable platform for online assessments</p>
+            <a href="sign-up.html" class="btn btn-warning btn-lg mr-2">Get Started</a>
+            <a href="exam-interface.html" class="btn btn-light btn-lg">Take Exam</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 text-center mb-4">
+                <h3>Create Exam</h3>
+                <p>Create custom quizzes or exams with various question types.</p>
+                <a href="exam-creation.html" class="btn btn-primary">Create Exam</a>
+            </div>
+            <div class="col-sm-12 col-md-4 text-center mb-4">
+                <h3>Take Exam</h3>
+                <p>Take secure, timed exams from any device.</p>
+                <a href="exam-interface.html" class="btn btn-success">Take Exam</a>
+            </div>
+            <div class="col-sm-12 col-md-4 text-center mb-4">
+                <h3>View Scores</h3>
+                <p>Access scores and feedback instantly after each exam.</p>
+                <a href="score-tracking.html" class="btn btn-info">View Scores</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-info text-white text-center mt-5 py-4">
+        <p>&copy; 2024 Online Exam System. All Rights Reserved.</p>
+        <div>
+            <a href="https://www.facebook.com" target="_blank" class="text-white mx-2">
+                <i class="bi bi-facebook"></i> Facebook
+            </a> |
+            <a href="https://www.twitter.com" target="_blank" class="text-white mx-2">
+                <i class="bi bi-twitter"></i> Twitter
+            </a> |
+            <a href="https://www.linkedin.com" target="_blank" class="text-white mx-2">
+                <i class="bi bi-linkedin"></i> LinkedIn
+            </a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Score Tracking</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray background */
+        }
+        .score-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+        }
+        h4 {
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .question-review {
+            background-color: #f1f1f1; /* Light background for each question */
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+        .btn-secondary {
+            background-color: #6c757d; /* Custom color for back button */
+            border: none;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268; /* Darker shade on hover */
+        }
+        .text-success {
+            font-weight: bold;
+        }
+        .text-danger {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 score-container">
+    <h1 class="text-center">Score Tracking</h1>
+    <p class="text-center">Below are your answers along with the correct answers for review.</p>
+    <div id="scoreContainer"></div>
+    <h4 id="totalScore" class="text-center mt-4"></h4> <!-- Element to display total score -->
+    <div class="text-center">
+        <a href="exam-creation.html" class="btn btn-secondary mt-3">Back to Home</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const examData = JSON.parse(localStorage.getItem('examData')) || { questions: [] };
+    const userAnswers = JSON.parse(localStorage.getItem('userAnswers')) || [];
+    const totalScore = JSON.parse(localStorage.getItem('totalScore')) || 0; // Fetch total score
+
+    let scoreHTML = '';
+
+    examData.questions.forEach((question, index) => {
+        const userAnswer = userAnswers[index]; // Directly get the user's answer
+        const correctAnswer = question.correctAnswer;
+        const selectedOption = userAnswer ? question.options[parseInt(userAnswer) - 1] : 'Not answered'; // Get user selected option
+
+        const status = selectedOption === question.options[correctAnswer - 1] ? 'Correct' : 'Incorrect';
+
+        scoreHTML += `
+            <div class="question-review">
+                <h5>Question ${index + 1}: ${question.question}</h5>
+                <p><strong>Your Answer:</strong> ${selectedOption}</p>
+                <p><strong>Correct Answer:</strong> ${question.options[correctAnswer - 1]}</p>
+                <p class="${status === 'Correct' ? 'text-success' : 'text-danger'}"><strong>Status:</strong> ${status}</p>
+            </div>`;
+    });
+
+    // Display the total score
+    document.getElementById('totalScore').innerHTML = `Total Score: ${totalScore} / ${examData.questions.length}`;
+    document.getElementById('scoreContainer').innerHTML = scoreHTML;
+});
+</script>
+
+</body>
+</html>

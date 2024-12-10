@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Take Exam</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 id="examTitle"></h2> <!-- Title will be dynamically inserted -->
+    <div id="timer" class="alert alert-info">Time Left: 10:00</div>
+    
+    <form id="examForm">
+        <div id="questionsContainer"></div> <!-- Container for dynamic questions -->
+        <button type="submit" class="btn btn-success">Submit Exam</button>
+    </form>
+</div>
+
+<script>
+// Timer function for 10 minutes
+const startTimer = (duration, display) => {
+    let timer = duration, minutes, seconds;
+    const interval = setInterval(() => {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = "Time Left: " + minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            clearInterval(interval);
+            alert("Time's up! Submitting the exam.");
+            document.getElementById("examForm").submit(); // Submit form automatically
+        }
+    }, 1000);
+};
+
+// Example correct answers (replace with actual correct answers for each question)
+const correctAnswers = {
+    q1: "Option 1", 
+    q2: "Option 2",
+    q3: "Option 3"
+};
+
+// Handle form submission
+const handleSubmit = (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const formData = new FormData(event.target);
+    let score = 0;
+
+    // Calculate score based on correct answers
+    for (const [key, value] of formData.entries()) {
+        if (correctAnswers[key] === value) {
+            score++;
+        }
+    }
+
+    // Save the score in localStorage
+    localStorage.setItem('examScore', score);
+    alert("Exam submitted!");
+};
+
+// Attach event listener for form submission
+document.getElementById("examForm").addEventListener("submit", handleSubmit);
+
+// Load exam data from local storage and populate the exam
+window.onload = () => {
+    const examData = JSON.parse(localStorage.getItem('examData'));
+    const display = document.querySelector("#timer");
+    
+    if (examData) {
+        // Set the exam title
+        document.getElementById("examTitle").textContent = examData.title;
+
+        // Dynamically create question elements
+        const questionsContainer = document.getElementById("questionsContainer");
+        examData.questions.forEach((questionObj, index) => {
+            const questionGroup = document.createElement("div");
+            questionGroup.className = "form-group";
+            questionGroup.innerHTML = `
+                <label>Question ${index + 1}: ${questionObj.question}</label>
+                <div>
+                    ${questionObj.options.map((option, i) => `
+                        <input type="radio" name="q${index + 1}" value="${option}"> ${option}<br>
+                    `).join('')}
+                </div>
+            `;
+            questionsContainer.appendChild(questionGroup);
+        });
+    } else {
+        questionsContainer.innerHTML = "<p>No exam data found. Please create an exam first.</p>";
+    }
+
+    const tenMinutes = 10 * 60; // 10 minutes in seconds
+    startTimer(tenMinutes, display);
+};
+</script>
+
+</body>
+</html>

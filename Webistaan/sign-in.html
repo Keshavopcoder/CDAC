@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Sign In</title>
+    <style>
+        /* Center container and set background gradient */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #ffffff;
+        }
+        /* Style for sign-in container */
+        .container {
+            max-width: 400px;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: #333333;
+        }
+        h1 {
+            color: #6e8efb;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        /* Customize form labels and inputs */
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 4px;
+            border-color: #6e8efb;
+        }
+        /* Customize buttons */
+        .btn-primary {
+            background: #6e8efb;
+            border: none;
+            padding: 0.5rem 1rem;
+            width: 100%;
+            border-radius: 4px;
+        }
+        .btn-primary:hover {
+            background: #5d7be2;
+        }
+        .btn-secondary {
+            background: #e3e4e8;
+            color: #333333;
+            width: 100%;
+            border: none;
+            margin-top: 1rem;
+            border-radius: 4px;
+        }
+        .btn-secondary:hover {
+            background: #c9cacc;
+        }
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            .container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In</h1>
+        <form id="signInForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <a href="index.html" class="btn btn-secondary">Back to Home</a>
+    </div>
+
+    <script src="js/scripts.js"></script>
+    <script>
+        // Handle sign-in form submission
+        document.getElementById("signInForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Here we can add logic to validate the username and password, e.g., sending them to a server
+            console.log("Username:", username);
+            console.log("Password:", password);
+
+            alert("Sign in successful!"); 
+            window.location.href = "index.html"; 
+        });
+    </script>
+</body>
+</html>
